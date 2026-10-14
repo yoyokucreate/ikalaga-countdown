@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#092e28">
+<meta name="description" content="Live countdown IKALAGA Goes to Garut — 6 November 2026, 06.35 WIB.">
+<title>IKALAGA Goes to Garut • Live Countdown</title>
+<style>
+:root{color-scheme:dark;--mint:#b9f0c5;--pale:#ecfff1;--forest:#092e28;--line:#ffffff2c}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#082e28;color:var(--pale);display:grid;place-items:center;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 5%,#437b5b 0%,transparent 39%),radial-gradient(ellipse at 80% 105%,#1b655e 0%,transparent 45%),linear-gradient(150deg,#123f34,#061e1d 78%)}
+.scene{position:fixed;bottom:0;left:0;right:0;height:32vh;z-index:-1;opacity:.4;pointer-events:none;background:linear-gradient(170deg,transparent 35%,#153e35 35% 50%,transparent 50%),linear-gradient(155deg,transparent 32%,#184a3a 32% 52%,transparent 52%),linear-gradient(20deg,transparent 30%,#0b241f 30%);clip-path:polygon(0 55%,17% 21%,32% 52%,48% 12%,68% 55%,84% 24%,100% 48%,100% 100%,0 100%)}
+main{width:min(96%,670px);padding:34px 19px 25px;text-align:center}.badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid #b9f0c555;border-radius:999px;padding:9px 16px;color:var(--mint);font-size:12px;font-weight:760;letter-spacing:.15em;box-shadow:inset 0 0 20px #b9f0c50c}.badge::before{content:"";width:8px;height:8px;background:#78e59c;border-radius:50%;box-shadow:0 0 12px #78e59c;animation:pulse 2s infinite}@keyframes pulse{50%{opacity:.45}}
+.kicker{font-size:clamp(12px,3vw,15px);letter-spacing:.36em;color:#c3e6ca;margin:35px 0 10px;font-weight:700}h1{font-size:clamp(37px,8.8vw,66px);font-weight:900;line-height:1.08;letter-spacing:-.045em;margin:0;text-wrap:balance}.accent{color:#a6edb5}.lead{font-size:clamp(14px,3.6vw,17px);margin:19px 0 32px;color:#e4f8e9ba}.date{display:inline-flex;align-items:center;gap:10px;justify-content:center;border:1px solid var(--line);border-radius:16px;padding:13px 20px;background:#ffffff0b;font-weight:700;font-size:clamp(13px,3.5vw,17px)}.label{font-size:12px;letter-spacing:.25em;font-weight:800;margin:36px 0 16px;color:#d6e9dc}
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,1.5vw,14px)}.unit{background:linear-gradient(160deg,#ffffff20,#ffffff07);border:1px solid #ffffff37;border-radius:18px;padding:clamp(15px,4vw,27px) 4px 15px;box-shadow:0 12px 28px #0003, inset 0 1px #ffffff25;backdrop-filter:blur(8px)}.value{font-size:clamp(35px,10vw,74px);line-height:1.1;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.05em;color:#eaffed}.unit small{display:block;color:var(--mint);margin-top:13px;font-size:clamp(10px,2.5vw,12px);letter-spacing:.12em;font-weight:800}.status{min-height:25px;margin:20px 0 27px;font-size:13px;color:#d4e7d9}.btns{display:flex;flex-wrap:wrap;gap:11px;justify-content:center}button{font:700 14px system-ui,sans-serif;border:1px solid #c0efcf5e;background:#c6f5d3;color:#073b30;padding:13px 17px;border-radius:12px;cursor:pointer}button.secondary{background:#ffffff12;color:#eaffed;border-color:#ffffff4a}.foot{font-size:12px;color:#c5dcca9c;margin-top:43px;line-height:1.5}@media(max-width:380px){main{padding-inline:9px}.unit{border-radius:13px}.date{padding:12px}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"></div>
+<main>
+ <div class="badge">LIVE COUNTDOWN</div>
+ <p class="kicker">PETUALANGAN BERSAMA</p>
+ <h1>IKALAGA<br><span class="accent">GOES TO GARUT</span></h1>
+ <p class="lead">Sampai jumpa di Garut! 🏔️</p>
+ <div class="date">📅 Jumat, 6 November 2026 &nbsp;•&nbsp; 06.35 WIB</div>
+ <p class="label">MENUJU HARI KEBERANGKATAN</p>
+ <section class="clock" aria-label="Hitung mundur langsung">
+  <div class="unit"><div class="value" id="days">--</div><small>HARI</small></div>
+  <div class="unit"><div class="value" id="hours">--</div><small>JAM</small></div>
+  <div class="unit"><div class="value" id="minutes">--</div><small>MENIT</small></div>
+  <div class="unit"><div class="value" id="seconds">--</div><small>DETIK</small></div>
+ </section>
+ <div class="status" id="status" role="status">Menghitung waktu keberangkatan…</div>
+ <div class="btns"><button id="share">↗ Bagikan ke WhatsApp</button><button class="secondary" id="copy">⧉ Salin tautan</button></div>
+ <div class="foot">Penghitung berjalan otomatis selama halaman dibuka.<br>Waktu acuan: WIB (UTC+07.00).</div>
+</main>
+<script>
+'use strict';
+// Explicit UTC+07:00 ensures the same target across devices and time zones.
+const target=Date.parse('2026-11-06T06:35:00+07:00');
+const $=id=>document.getElementById(id);
+function tick(){
+ let delta=Math.max(0,target-Date.now());
+ const days=Math.floor(delta/86400000);delta%=86400000;
+ const hours=Math.floor(delta/3600000);delta%=3600000;
+ const minutes=Math.floor(delta/60000);delta%=60000;
+ const seconds=Math.floor(delta/1000);
+ $('days').textContent=String(days).padStart(2,'0');
+ $('hours').textContent=String(hours).padStart(2,'0');
+ $('minutes').textContent=String(minutes).padStart(2,'0');
+ $('seconds').textContent=String(seconds).padStart(2,'0');
+ $('status').textContent=Date.now()>=target?'🎉 Waktunya berangkat! Selamat menikmati Garut!':'⏳ Detik demi detik menuju Garut';
+}
+tick();setInterval(tick,250);
+const shareText=()=>`⏳ LIVE COUNTDOWN — IKALAGA GOES TO GARUT\n📅 Jumat, 6 November 2026, 06.35 WIB\nLihat hitung mundurnya di sini:\n${location.href}`;
+$('share').addEventListener('click',()=>{window.open('https://wa.me/?text='+encodeURIComponent(shareText()),'_blank','noopener,noreferrer')});
+$('copy').addEventListener('click',async()=>{if(location.protocol==='file:'){alert('Unggah situs terlebih dahulu agar memiliki tautan publik untuk dibagikan.');return}try{await navigator.clipboard.writeText(location.href);$('copy').textContent='✓ Tautan disalin';setTimeout(()=>$('copy').textContent='⧉ Salin tautan',2500)}catch(e){prompt('Salin tautan:',location.href)}});
+</script>
+</body>
+</html>
